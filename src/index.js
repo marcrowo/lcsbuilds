@@ -8,19 +8,22 @@ import { combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import axios from 'axios';
 
-const teamsReducer = (state = [], action ) => {
-    switch (action.type) {
-        case 'TEAMS_FETCHED':
-            return action.teams
-        case 'ERROR':
-            return ["http error"]
-        default:
-            return ['empty']
+const httpReducer = (success, error) => {
+    return (state = ['empty'], action ) => {
+        switch (action.type) {
+            case success:
+                return action.data;
+            case error:
+                return ['error'];
+            default:
+                return state;
+        }
     }
 }
 
 const lcsbuilds = combineReducers({
-    teams: teamsReducer
+    teams: httpReducer('TEAMS_SUCCESS', 'TEAMS_ERROR'),
+    champions: httpReducer('CHAMPIONS_SUCCESS', 'CHAMPIONS_ERROR'),
 });
 
 const store = createStore(lcsbuilds);
@@ -28,13 +31,26 @@ const store = createStore(lcsbuilds);
 axios.get('/teams')
     .then(function(response) {
         store.dispatch({
-            type: 'TEAMS_FETCHED',
-            teams: response.data 
+            type: 'TEAMS_SUCCESS',
+            data: response.data,
         })
     })
     .catch(function(err) {
         store.dispatch({
-            type: 'ERROR'
+            type: 'TEAMS_ERROR',
+        })
+    });
+
+axios.get('/champions')
+    .then(function(response) {
+        store.dispatch({
+            type: 'CHAMPIONS_SUCCESS',
+            data: response.data,
+        })
+    })
+    .catch(function(err) {
+        store.dispatch({
+            type: 'CHAMPIONS_ERROR',
         })
     });
 

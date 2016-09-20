@@ -8,51 +8,45 @@ import { combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import axios from 'axios';
 
-const httpReducer = (success, error) => {
+const httpReducer = (successString, errorString) => {
     return (state = ['empty'], action ) => {
         switch (action.type) {
-            case success:
+            case successString:
                 return action.data;
-            case error:
+            case errorString:
                 return ['error'];
             default:
                 return state;
         }
     }
-}
+};
 
 const lcsbuilds = combineReducers({
     teams: httpReducer('TEAMS_SUCCESS', 'TEAMS_ERROR'),
     champions: httpReducer('CHAMPIONS_SUCCESS', 'CHAMPIONS_ERROR'),
+    players: httpReducer('PLAYERS_SUCCESS', 'PLAYERS_ERROR')
 });
 
 const store = createStore(lcsbuilds);
 
-axios.get('/teams')
-    .then(function(response) {
-        store.dispatch({
-            type: 'TEAMS_SUCCESS',
-            data: response.data,
+const getData = (url, successString, errorString) => {
+    axios.get(url)
+        .then(function(response) {
+            store.dispatch({
+                type: successString,
+                data: response.data,
+            })
         })
-    })
-    .catch(function(err) {
-        store.dispatch({
-            type: 'TEAMS_ERROR',
-        })
-    });
+        .catch(function(err) {
+            store.dispatch({
+                type: errorString,
+            })
+        });
+};
 
-axios.get('/champions')
-    .then(function(response) {
-        store.dispatch({
-            type: 'CHAMPIONS_SUCCESS',
-            data: response.data,
-        })
-    })
-    .catch(function(err) {
-        store.dispatch({
-            type: 'CHAMPIONS_ERROR',
-        })
-    });
+getData('/teams', 'TEAMS_SUCCESS', 'TEAMS_ERROR');
+getData('/champions', 'CHAMPIONS_SUCCESS', 'CHAMPIONS_ERROR');
+getData('/players', 'PLAYERS_SUCCESS', 'PLAYERS_ERROR');
 
 ReactDOM.render(
     <Provider store={store}>

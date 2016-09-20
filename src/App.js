@@ -14,7 +14,7 @@ const ArrayList = ({ array }) => (
     </ul>
 );
 
-const App = ({ teams, champions }) => {
+const App = ({ teams, champions, players }) => {
     return (
         <div className="App">
         <div className="App-header">
@@ -25,6 +25,8 @@ const App = ({ teams, champions }) => {
         <ArrayList array={teams}/>
         <h3>Champions</h3>
         <ArrayList array={champions}/>
+        <h3>Players</h3>
+        <ArrayList array={players}/>
         </div>
     );
 };
@@ -32,7 +34,8 @@ const App = ({ teams, champions }) => {
 const mapStateToProps = (state) => {
     return {
         teams: state.teams,
-        champions: state.champions
+        champions: state.champions,
+        players: state.players
     };
 };
 

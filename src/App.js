@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+//my imports
+import { connect } from 'react-redux';
 
 const ArrayList = ({ array }) => (
     <ul>
@@ -12,18 +14,22 @@ const ArrayList = ({ array }) => (
     </ul>
 );
 
-class App extends Component {
-    render() {
-        return (
-            <div className="App">
-                <div className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
-                    <h2>lcsbuilds-react</h2>
-                </div>
-                <ArrayList array={this.props.teams}/>
-            </div>
-        );
-    }
-}
+const App = ({ teams }) => {
+    return (
+        <div className="App">
+        <div className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
+            <h2>lcsbuilds-react</h2>
+        </div>
+        <ArrayList array={teams}/>
+        </div>
+    );
+};
 
-export default App;
+const mapStateToProps = (state) => {
+    return {
+        teams: state
+    };
+};
+
+export default connect(mapStateToProps, null)(App);

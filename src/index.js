@@ -4,12 +4,15 @@ import App from './App';
 import './index.css';
 // my imports
 import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 import axios from 'axios';
 
 const teams = (state = [], action ) => {
     switch (action.type) {
         case 'TEAMS_FETCHED':
             return action.teams
+        case 'ERROR':
+            return ["http error"]
         default:
             return ['empty']
     }
@@ -25,15 +28,14 @@ axios.get('/teams')
         })
     })
     .catch(function(err) {
-        console.log(err);
+        store.dispatch({
+            type: 'ERROR'
+        })
     });
 
-const render = () => {
-    ReactDOM.render(
-        <App teams={store.getState()}/>,
-        document.getElementById('root')
-    );
-};
-
-store.subscribe(render);
-render();
+ReactDOM.render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('root')
+);

@@ -4,10 +4,11 @@ import App from './App';
 import './index.css';
 // my imports
 import { createStore } from 'redux';
+import { combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import axios from 'axios';
 
-const teams = (state = [], action ) => {
+const teamsReducer = (state = [], action ) => {
     switch (action.type) {
         case 'TEAMS_FETCHED':
             return action.teams
@@ -18,7 +19,11 @@ const teams = (state = [], action ) => {
     }
 }
 
-const store = createStore(teams);
+const lcsbuilds = combineReducers({
+    teams: teamsReducer
+});
+
+const store = createStore(lcsbuilds);
 
 axios.get('/teams')
     .then(function(response) {

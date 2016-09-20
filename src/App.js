@@ -14,7 +14,7 @@ const ArrayList = ({ array }) => (
     </ul>
 );
 
-const App = ({ teams }) => {
+const Teams = ({ teams }) => {
     return (
         <div className="App">
         <div className="App-header">
@@ -28,8 +28,8 @@ const App = ({ teams }) => {
 
 const mapStateToProps = (state) => {
     return {
-        teams: state
+        teams: state.teams
     };
 };
 
-export default connect(mapStateToProps, null)(App);
+export default connect(mapStateToProps, null)(Teams);

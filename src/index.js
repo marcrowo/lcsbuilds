@@ -1,56 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import './index.css';
 // my imports
-import { createStore } from 'redux';
-import { combineReducers } from 'redux';
 import { Provider } from 'react-redux';
-import axios from 'axios';
-
-const httpReducer = (successString, errorString) => {
-    return (state = ['empty'], action ) => {
-        switch (action.type) {
-            case successString:
-                return action.data;
-            case errorString:
-                return ['error'];
-            default:
-                return state;
-        }
-    }
-};
-
-const lcsbuilds = combineReducers({
-    teams: httpReducer('TEAMS_SUCCESS', 'TEAMS_ERROR'),
-    champions: httpReducer('CHAMPIONS_SUCCESS', 'CHAMPIONS_ERROR'),
-    players: httpReducer('PLAYERS_SUCCESS', 'PLAYERS_ERROR')
-});
-
-const store = createStore(lcsbuilds);
-
-const getData = (url, successString, errorString) => {
-    axios.get(url)
-        .then(function(response) {
-            store.dispatch({
-                type: successString,
-                data: response.data,
-            })
-        })
-        .catch(function(err) {
-            store.dispatch({
-                type: errorString,
-            })
-        });
-};
-
-getData('/teams', 'TEAMS_SUCCESS', 'TEAMS_ERROR');
-getData('/champions', 'CHAMPIONS_SUCCESS', 'CHAMPIONS_ERROR');
-getData('/players', 'PLAYERS_SUCCESS', 'PLAYERS_ERROR');
+import { Router, Route, browserHistory } from 'react-router';
+import { Home, Teams, Champions, Players, MatchHistory } from './App.js';
+import store from './Store.js';
 
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <Router history={browserHistory}>
+            <Route path="/" component={Home} />
+            <Route path="/teams" component={Teams} />
+            <Route path="/champions" component={Champions} />
+            <Route path="/players" component={Players} />
+            <Route path="/match_history" component={MatchHistory} />
+        </Router>
     </Provider>,
     document.getElementById('root')
 );

@@ -9,7 +9,7 @@ import store from './Store.js';
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router history={browserHistory}>
+        <Router onUpdate={() => window.scrollTo(0, 0)} history={browserHistory}>
             <Route path="/" component={Home} />
             <Route path="/teams" component={Teams} />
             <Route path="/champions" component={Champions} />

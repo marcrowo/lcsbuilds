@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { withRouter } from 'react-router';
 
 class Header extends Component {
     render() {
@@ -21,4 +20,4 @@ class Header extends Component {
     };
 };
 
-export default withRouter(Header);
+export default Header;

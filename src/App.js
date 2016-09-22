@@ -4,6 +4,7 @@ import './App.css';
 import { connect } from 'react-redux';
 import Header from './Header.js';
 import HeaderArray from './HeaderArray.js';
+import Matches from './Match.js';
 import getData from './getData.js';
 
 const Home = () => {
@@ -39,13 +40,7 @@ const MatchHistoryPresentational = ({ match_history }) => {
         <div>
             <Header/>
             <h3>Match History</h3>
-            <ul>
-                {match_history.map((game, index) => {
-                    return (<li key={index}>
-                        {game.name} {/*{new Date(game.date).toLocaleString()}*/}
-                    </li>);
-                })}
-            </ul>
+            <Matches matches={match_history}/>
         </div>
     );
 };

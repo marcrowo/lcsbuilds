@@ -18,3 +18,41 @@ input {
     display: block;
     margin: 0 auto;
 }
+
+table {
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid black;
+    text-align: center;
+}
+
+table p {
+    margin: 0;
+    padding: 0;
+}
+
+#victory-bar{
+    height: 48px;
+    width: 10px;
+    background:green;
+}
+#defeat-bar{
+    height: 48px;
+    width: 10px;
+    background:red;
+}
+
+.thumbnail-big {
+    height: 48px;
+    width: 48px;
+    vertical-align: middle;
+}
+
+.thumbnail-small {
+    height: 24px;
+    width: 24px;
+    display: inline;
+    vertical-align: middle;
+}

@@ -93,16 +93,21 @@ class MatchHistory extends Component {
             getData('/match_history', 'MATCH_HISTORY_SUCCESS', 'MATCH_HISTORY_ERROR');
         }
     }
+    componentDidUpdate(prevProps) {
+        //TODO
+        /*
+        if (this.props.filter !== prevProps.filter) {
+            fetchTodos(this.props.filter).then(todos =>
+                    console.log(this.props.filter, todos)
+            );
+        }
+        */
+    }
     render() {
         //FIXME Cannot only getData on render; ex: match_history -> team_history is only 1 get request
         //Current hacky fix does 2 get requests for match_history, also a no no
         //Two different components? But that won't solve team problem (ie. TSM -> CLG will only render once)
-        if (this.props.params.team) {
-            getData('/team_match_history/' + this.props.params.team, 'TEAM_MATCH_HISTORY_SUCCESS', 'TEAM_MATCH_HISTORY_ERROR', 'team_match_history');
-        }
-        else {
-            getData('/match_history', 'MATCH_HISTORY_SUCCESS', 'MATCH_HISTORY_ERROR');
-        }
+        //getData on route change instead would be best, see redux notes ?
 
         let match_history_array = get_match_history_array(this.props);
         if (match_history_array.length > 1) {

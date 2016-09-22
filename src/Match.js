@@ -4,12 +4,12 @@ import { Link } from 'react-router';
 
 class Pagination extends Component {
     render() {
-        //FIXME Using <Link> means that <Pagination> is not re-rendered, thus currentPage is out of sync...
-        //connect() issue?
         let currentPage = parseInt(window.location.pathname.split('/').pop());
 
+        const first = <Link to={"/match_history/page/1"}>First</Link>;
         const previous = <Link to={"/match_history/page/" + String(currentPage - 1)}>&lt;&lt;Previous</Link>;
         const next = <Link to={"/match_history/page/" + String(currentPage + 1)}>Next&gt;&gt;</Link>;
+        const last = <Link to={"/match_history/page/" + Math.round(this.props.match_history_length / 5)}>Last</Link>;
 
         const showPrevious = currentPage > 1;
         const showNext = currentPage * 5 < this.props.match_history_length;
@@ -17,32 +17,40 @@ class Pagination extends Component {
         if (showPrevious && showNext) {
             return(
                 <span className="centered-flex">
+                    {first} &nbsp;
                     {previous} &nbsp;
-                    {next}
+                    {next} &nbsp;
+                    {last}
                 </span>
             );
         }
         else if (!showPrevious && showNext) {
             return(
                 <span className="centered-flex">
+                    <span>First</span> &nbsp;
                     <span>&lt;&lt;Previous</span> &nbsp;
-                    {next}
+                    {next} &nbsp;
+                    {last}
                 </span>
             );
         }
         else if (showPrevious && !showNext) {
             return(
                 <span className="centered-flex">
+                    {first} &nbsp;
                     {previous}
                     <span>Next&gt;&gt;</span> &nbsp;
+                    <span>Last</span> &nbsp;
                 </span>
             );
         }
         else {
             return(
                 <span className="centered-flex">
+                    {first} &nbsp;
                     <span>&lt;&lt;Previous</span> &nbsp;
                     <span>Next&gt;&gt;</span> &nbsp;
+                    {last}
                 </span>
             );
         }

@@ -7,10 +7,10 @@ const Header = () => {
             <Link to="/">
                 <h2>lcsbuilds-react</h2>
             </Link>
-            <Link to="/teams">Teams</Link> &nbsp;
-            <Link to="/champions">Champions</Link> &nbsp;
-            <Link to="/players">Players</Link> &nbsp;
-            <Link to="/match_history">Match History</Link> &nbsp;
+            <Link to="/teams" activeClassName="active">Teams</Link> &nbsp;
+            <Link to="/champions" activeClassName="active">Champions</Link> &nbsp;
+            <Link to="/players" activeClassName="active">Players</Link> &nbsp;
+            <Link to="/match_history" activeClassName="active">Match History</Link> &nbsp;
         </div>
     );
 };

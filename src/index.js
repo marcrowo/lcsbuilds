@@ -14,7 +14,7 @@ ReactDOM.render(
             <Route path="/teams" component={Teams} />
             <Route path="/champions" component={Champions} />
             <Route path="/players" component={Players} />
-            <Route path="/match_history" component={MatchHistory} />
+            <Route path="/match_history(/:page)" component={MatchHistory} />
         </Router>
     </Provider>,
     document.getElementById('root')

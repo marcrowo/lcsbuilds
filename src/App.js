@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 //my imports
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import Header from './Header.js';
 import HeaderArray from './HeaderArray.js';
 import Matches from './Match.js';
@@ -39,7 +40,7 @@ const MatchHistoryPresentational = ({ match_history }) => {
     return (
         <div>
             <Header/>
-            <h3>Match History</h3>
+            <h3 className="centered">Match History</h3>
             <Matches matches={match_history}/>
         </div>
     );
@@ -93,6 +94,6 @@ const mapStateToProps = (state) => {
 Teams = connect(mapStateToProps, null)(Teams);
 Champions = connect(mapStateToProps, null)(Champions);
 Players = connect(mapStateToProps, null)(Players);
-MatchHistory = connect(mapStateToProps, null)(MatchHistory);
+MatchHistory = withRouter(connect(mapStateToProps, null)(MatchHistory));
 
 export {Home, Teams, Champions, Players, MatchHistory};

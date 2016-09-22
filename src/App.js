@@ -78,7 +78,12 @@ class MatchHistory extends Component {
         getData('/match_history', 'MATCH_HISTORY_SUCCESS', 'MATCH_HISTORY_ERROR');
     }
     render() {
-        return <MatchHistoryPresentational {...this.props}/>;
+        if (this.props.match_history.length > 1) {
+            return <MatchHistoryPresentational match_history={this.props.match_history.slice(5 * this.props.params.page - 5, 5 * this.props.params.page)}/>;
+        }
+        else {
+            return <MatchHistoryPresentational match_history={this.props.match_history}/>
+        }
     }
 }
 

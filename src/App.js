@@ -73,17 +73,44 @@ class Players extends Component {
     }
 }
 
+
+let get_match_history_array = (props) => {
+    let match_history_array;
+    if (props.params.team) {
+        match_history_array = props.team_match_history;
+    }
+    else {
+        match_history_array = props.match_history;
+    }
+    return match_history_array;
+};
 class MatchHistory extends Component {
     componentDidMount() {
-        getData('/match_history', 'MATCH_HISTORY_SUCCESS', 'MATCH_HISTORY_ERROR');
-    }
-    render() {
-        if (this.props.match_history.length > 1) {
-            return <MatchHistoryPresentational match_history={this.props.match_history.slice(5 * this.props.params.page - 5, 5 * this.props.params.page)} length={this.props.match_history.length}/>;
+        if (this.props.params.team) {
+            getData('/team_match_history/' + this.props.params.team, 'TEAM_MATCH_HISTORY_SUCCESS', 'TEAM_MATCH_HISTORY_ERROR', 'team_match_history');
         }
         else {
-            return <MatchHistoryPresentational match_history={this.props.match_history}
-                length={this.props.match_history.length}/>
+            getData('/match_history', 'MATCH_HISTORY_SUCCESS', 'MATCH_HISTORY_ERROR');
+        }
+    }
+    render() {
+        //FIXME Cannot only getData on render; ex: match_history -> team_history is only 1 get request
+        //Current hacky fix does 2 get requests for match_history, also a no no
+        //Two different components? But that won't solve team problem (ie. TSM -> CLG will only render once)
+        if (this.props.params.team) {
+            getData('/team_match_history/' + this.props.params.team, 'TEAM_MATCH_HISTORY_SUCCESS', 'TEAM_MATCH_HISTORY_ERROR', 'team_match_history');
+        }
+        else {
+            getData('/match_history', 'MATCH_HISTORY_SUCCESS', 'MATCH_HISTORY_ERROR');
+        }
+
+        let match_history_array = get_match_history_array(this.props);
+        if (match_history_array.length > 1) {
+            return <MatchHistoryPresentational match_history={match_history_array.slice(5 * this.props.params.page - 5, 5 * this.props.params.page)} length={match_history_array.length}/>;
+        }
+        else {
+            return <MatchHistoryPresentational match_history={match_history_array}
+                length={match_history_array.length}/>
         }
     }
 }
@@ -93,11 +120,12 @@ const mapStateToProps = (state) => {
         teams: state.teams,
         champions: state.champions,
         players: state.players,
-        match_history: state.match_history
+        match_history: state.match_history,
+        team_match_history: state.team_match_history
     };
 };
 
-Teams = connect(mapStateToProps, null)(Teams);
+Teams = withRouter(connect(mapStateToProps, null)(Teams));
 Champions = connect(mapStateToProps, null)(Champions);
 Players = connect(mapStateToProps, null)(Players);
 MatchHistory = withRouter(connect(mapStateToProps, null)(MatchHistory));

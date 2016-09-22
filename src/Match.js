@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
 class Pagination extends Component {
     render() {
-        let currentPage = parseInt(window.location.pathname.split('/').pop());
+        let currentPath = window.location.pathname.split('/');
+        let currentPage = parseInt(currentPath.pop(), 10);
+        currentPath = currentPath.join('/') + '/';
 
-        const first = <Link to={"/match_history/page/1"}>First</Link>;
-        const previous = <Link to={"/match_history/page/" + String(currentPage - 1)}>&lt;&lt;Previous</Link>;
-        const next = <Link to={"/match_history/page/" + String(currentPage + 1)}>Next&gt;&gt;</Link>;
-        const last = <Link to={"/match_history/page/" + Math.round(this.props.match_history_length / 5)}>Last</Link>;
+        const first = <Link to={currentPath + "1"}>First</Link>;
+        const previous = <Link to={currentPath + String(currentPage - 1)}>&lt;&lt;Previous</Link>;
+        const next = <Link to={currentPath + String(currentPage + 1)}>Next&gt;&gt;</Link>;
+        const last = <Link to={currentPath + Math.round(this.props.match_history_length / 5)}>Last</Link>;
 
         const showPrevious = currentPage > 1;
         const showNext = currentPage * 5 < this.props.match_history_length;

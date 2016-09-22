@@ -1,13 +1,13 @@
 import store from './Store.js';
 import axios from 'axios';
 
-const getData = (url, successString, errorString) => {
+const getData = (url, successString, errorString, prop = null) => {
     let currentStore = store.getState();
-    let prop = url.slice(1, url.length);
+    prop = prop === null ? url.slice(1, url.length) : prop;
 
     // do not fetch again if already calculated
     // test for default state
-    if (currentStore[prop].length !== 1 && currentStore[prop][0] !== 'loading...') {
+    if (currentStore[prop].length !== 1 && currentStore[prop][0] !== errorString) {
         return;
     }
     else {

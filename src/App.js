@@ -36,12 +36,12 @@ const PlayersPresentational = ({ players }) => {
     );
 };
 
-const MatchHistoryPresentational = ({ match_history }) => {
+const MatchHistoryPresentational = ({ match_history, length }) => {
     return (
         <div>
             <Header/>
             <h3 className="centered">Match History</h3>
-            <Matches matches={match_history}/>
+            <Matches matches={match_history} length={length}/>
         </div>
     );
 };
@@ -79,10 +79,11 @@ class MatchHistory extends Component {
     }
     render() {
         if (this.props.match_history.length > 1) {
-            return <MatchHistoryPresentational match_history={this.props.match_history.slice(5 * this.props.params.page - 5, 5 * this.props.params.page)}/>;
+            return <MatchHistoryPresentational match_history={this.props.match_history.slice(5 * this.props.params.page - 5, 5 * this.props.params.page)} length={this.props.match_history.length}/>;
         }
         else {
-            return <MatchHistoryPresentational match_history={this.props.match_history}/>
+            return <MatchHistoryPresentational match_history={this.props.match_history}
+                length={this.props.match_history.length}/>
         }
     }
 }

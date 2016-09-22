@@ -4,15 +4,15 @@ import { Link } from 'react-router';
 
 class Pagination extends Component {
     render() {
+        //FIXME Using <Link> means that <Pagination> is not re-rendered, thus currentPage is out of sync...
+        //connect() issue?
         let currentPage = parseInt(window.location.pathname.split('/').pop());
-        console.log(currentPage);
-        console.log(window.location.pathname);
 
         const previous = <Link to={"/match_history/page/" + String(currentPage - 1)}>&lt;&lt;Previous</Link>;
         const next = <Link to={"/match_history/page/" + String(currentPage + 1)}>Next&gt;&gt;</Link>;
 
         const showPrevious = currentPage > 1;
-        const showNext = currentPage * 5 + 5 < this.props.match_history_length;
+        const showNext = currentPage * 5 < this.props.match_history_length;
 
         if (showPrevious && showNext) {
             return(
@@ -48,14 +48,6 @@ class Pagination extends Component {
         }
     } 
 };
-
-const mapStateToProps = (state) => {
-    return {
-        match_history_length: state.match_history.length
-    };
-};
-
-Pagination = connect(mapStateToProps)(Pagination);
 
 const Items = ({ items} ) => (
     <div>
@@ -128,14 +120,14 @@ const Match = ({ match }) => {
     }
 };
 
-const Matches = ({ matches }) => {
+const Matches = ({ matches, length}) => {
     return (
         <div>
-            <Pagination />
+            <Pagination match_history_length={length}/>
             {matches.map((match, index) =>
                     <Match match={match} key={index}/>
             )}
-            <Pagination />
+            <Pagination match_history_length={length}/>
         </div>
     );
 };

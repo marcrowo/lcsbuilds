@@ -3,6 +3,7 @@ import './App.css';
 //my imports
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { Link } from 'react-router';
 import Header from './Header.js';
 import HeaderArray from './HeaderArray.js';
 import Matches from './Match.js';
@@ -20,7 +21,15 @@ const Home = () => {
 
 const TeamsPresentational = ({ teams }) => {
     return (
-        <HeaderArray title={'Teams'} array={teams}/>
+        <div>
+            <Header/>
+            <h3>Teams</h3>
+            <ul>
+                {teams.map((team) => 
+                        <li key={team}><Link to={"/teams/" + team + "/1"}>{team}</Link></li>
+                )}
+            </ul>
+        </div>
     );
 };
 
@@ -85,32 +94,32 @@ let get_match_history_array = (props) => {
     return match_history_array;
 };
 
+const getDataBasedOnProps = (props) => {
+    if (props.params.team) {
+        getData('/team_match_history/' + props.params.team, 'TEAM_MATCH_HISTORY_SUCCESS', 'TEAM_MATCH_HISTORY_ERROR', 'team_match_history', true);
+    }
+    else if (props.params.champion) {
+        getData('/champion_match_history/' + props.params.champion, 'CHAMPION_MATCH_HISTORY_SUCCESS', 'CHAMPION_MATCH_HISTORY_ERROR', 'champion_match_history', true);
+    }
+    // default case is match_history
+    else {
+        getData('/match_history', 'MATCH_HISTORY_SUCCESS', 'MATCH_HISTORY_ERROR');
+    }
+};
+
 class MatchHistory extends Component {
     componentDidMount() {
-        if (this.props.params.team) {
-            getData('/team_match_history/' + this.props.params.team, 'TEAM_MATCH_HISTORY_SUCCESS', 'TEAM_MATCH_HISTORY_ERROR', 'team_match_history');
-        }
-        else {
-            getData('/match_history', 'MATCH_HISTORY_SUCCESS', 'MATCH_HISTORY_ERROR');
-        }
+        getDataBasedOnProps(this.props);
     }
     componentDidUpdate(prevProps) {
-        //TODO
-        if (this.props.params.team !== prevProps.params.team) {
-            if (this.props.params.team) {
-                getData('/team_match_history/' + this.props.params.team, 'TEAM_MATCH_HISTORY_SUCCESS', 'TEAM_MATCH_HISTORY_ERROR', 'team_match_history');
-            }
-            else {
-                getData('/match_history', 'MATCH_HISTORY_SUCCESS', 'MATCH_HISTORY_ERROR');
-            }
+        //if team changed or went from defined to undefined, same for champion
+        if (this.props.params.team !== prevProps.params.team
+            || this.props.params.champion !== prevProps.params.champion) {
+                getDataBasedOnProps(this.props);
         }
     }
 
     render() {
-        //FIXME Cannot only getData on render; ex: match_history -> team_history is only 1 get request
-        //Current hacky fix does 2 get requests for match_history, also a no no
-        //Two different components? But that won't solve team problem (ie. TSM -> CLG will only render once)
-        //getData on route change instead would be best, see redux notes ?
         let match_history_array = get_match_history_array(this.props);
 
         if (match_history_array.length > 1) {
@@ -123,13 +132,15 @@ class MatchHistory extends Component {
     }
 }
 
+//TODO Multiple mapStateToProps? Most components only need one state prop
 const mapStateToProps = (state) => {
     return {
         teams: state.teams,
         champions: state.champions,
         players: state.players,
         match_history: state.match_history,
-        team_match_history: state.team_match_history
+        team_match_history: state.team_match_history,
+        champion_match_history: state.team_match_history
     };
 };
 

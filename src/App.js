@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import './Autosuggest.css';
 //my imports
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -8,13 +9,18 @@ import Header from './Header.js';
 import HeaderArray from './HeaderArray.js';
 import Matches from './Match.js';
 import getData from './getData.js';
+import Example from './Autosuggest.js';
 
 const Home = () => {
     return (
         <div>
             <Header/>
-            <p className="centered">Search for a team, player, or champion below.</p>
-            <input type="text"/>
+            <p/>
+            {/*<p className="centered">Search for a team, player, or champion below.</p>*/}
+            {/*<input type="text"/>*/}
+            <div className="centered-flex">
+                <Example/>
+            </div>
         </div>
     );
 };

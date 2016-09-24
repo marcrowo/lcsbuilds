@@ -19,7 +19,21 @@ const Home = () => {
     );
 };
 
+//TODO refactor new component, delete HeaderArray / ArrayList?
 const TeamsPresentational = ({ teams }) => {
+    if (teams[0] === 'loading...') {
+        return (
+            <div>
+                <Header/>
+                <h3>Teams</h3>
+                <ul>
+                    {teams.map((team) => 
+                            <li key={team}>{team}</li>
+                    )}
+                </ul>
+            </div>
+        );
+    }
     return (
         <div>
             <Header/>
@@ -34,8 +48,29 @@ const TeamsPresentational = ({ teams }) => {
 };
 
 const ChampionsPresentational = ({ champions }) => {
+    if (champions[0] === 'loading...') {
+        return (
+            <div>
+                <Header/>
+                <h3>Champions</h3>
+                <ul>
+                    {champions.map((champion) => 
+                            <li key={champion}>{champion}</li>
+                    )}
+                </ul>
+            </div>
+        );
+    }
     return (
-        <HeaderArray title={'Champions'} array={champions}/>
+        <div>
+            <Header/>
+            <h3>Champions</h3>
+            <ul>
+                {champions.map((champion) => 
+                        <li key={champion}><Link to={"/champions/" + champion + "/1"}>{champion}</Link></li>
+                )}
+            </ul>
+        </div>
     );
 };
 
@@ -88,9 +123,13 @@ let get_match_history_array = (props) => {
     if (props.params.team) {
         match_history_array = props.team_match_history;
     }
+    else if (props.params.champion) {
+        match_history_array = props.champion_match_history;
+    }
     else {
         match_history_array = props.match_history;
     }
+    console.log('match_history_array', match_history_array);
     return match_history_array;
 };
 
@@ -118,11 +157,10 @@ class MatchHistory extends Component {
                 getDataBasedOnProps(this.props);
         }
     }
-
     render() {
         let match_history_array = get_match_history_array(this.props);
 
-        if (match_history_array.length > 1) {
+        if (match_history_array.length > 1) { //not loading or error
             return <MatchHistoryPresentational match_history={match_history_array.slice(5 * this.props.params.page - 5, 5 * this.props.params.page)} length={match_history_array.length}/>;
         }
         else {
@@ -140,7 +178,7 @@ const mapStateToProps = (state) => {
         players: state.players,
         match_history: state.match_history,
         team_match_history: state.team_match_history,
-        champion_match_history: state.team_match_history
+        champion_match_history: state.champion_match_history
     };
 };
 

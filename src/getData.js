@@ -7,7 +7,7 @@ const getData = (url, successString, errorString, prop = null, fetch_again = fal
 
     // do not fetch again if already calculated
     // test for default state
-    if (!fetch_again && currentStore[prop].length !== 1 && currentStore[prop][0] !== errorString) {
+    if (!fetch_again && currentStore[prop][0] !== 'loading...' && currentStore[prop][0] !== errorString) {
         return;
     }
     else {

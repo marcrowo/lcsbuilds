@@ -19,7 +19,8 @@ const lcsbuilds = combineReducers({
     champions: httpReducer('CHAMPIONS_SUCCESS', 'CHAMPIONS_ERROR'),
     players: httpReducer('PLAYERS_SUCCESS', 'PLAYERS_ERROR'),
     match_history: httpReducer('MATCH_HISTORY_SUCCESS', 'MATCH_HISTORY_ERROR'),
-    team_match_history: httpReducer('TEAM_MATCH_HISTORY_SUCCESS', 'TEAM_MATCH_HISTORY_ERROR')
+    team_match_history: httpReducer('TEAM_MATCH_HISTORY_SUCCESS', 'TEAM_MATCH_HISTORY_ERROR'),
+    champion_match_history: httpReducer('CHAMPION_MATCH_HISTORY_SUCCESS', 'CHAMPION_MATCH_HISTORY_ERROR')
 });
 
 export default createStore(lcsbuilds);

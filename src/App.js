@@ -75,8 +75,29 @@ const ChampionsPresentational = ({ champions }) => {
 };
 
 const PlayersPresentational = ({ players }) => {
+    if (players[0] === 'loading...') {
+        return (
+            <div>
+                <Header/>
+                <h3>Players</h3>
+                <ul>
+                    {players.map((player) => 
+                            <li key={player}>{player}</li>
+                    )}
+                </ul>
+            </div>
+        );
+    }
     return (
-        <HeaderArray title={'Players'} array={players}/>
+        <div>
+            <Header/>
+            <h3>Players</h3>
+            <ul>
+                {players.map((player) => 
+                        <li key={player}><Link to={"/players/" + player + "/1"}>{player}</Link></li>
+                )}
+            </ul>
+        </div>
     );
 };
 
@@ -126,10 +147,12 @@ let get_match_history_array = (props) => {
     else if (props.params.champion) {
         match_history_array = props.champion_match_history;
     }
+    else if (props.params.player) {
+        match_history_array = props.player_match_history;
+    }
     else {
         match_history_array = props.match_history;
     }
-    console.log('match_history_array', match_history_array);
     return match_history_array;
 };
 
@@ -139,6 +162,9 @@ const getDataBasedOnProps = (props) => {
     }
     else if (props.params.champion) {
         getData('/champion_match_history/' + props.params.champion, 'CHAMPION_MATCH_HISTORY_SUCCESS', 'CHAMPION_MATCH_HISTORY_ERROR', 'champion_match_history', true);
+    }
+    else if (props.params.player) {
+        getData('/player_match_history/' + props.params.player, 'PLAYER_MATCH_HISTORY_SUCCESS', 'PLAYER_MATCH_HISTORY_ERROR', 'player_match_history', true);
     }
     // default case is match_history
     else {
@@ -153,7 +179,8 @@ class MatchHistory extends Component {
     componentDidUpdate(prevProps) {
         //if team changed or went from defined to undefined, same for champion
         if (this.props.params.team !== prevProps.params.team
-            || this.props.params.champion !== prevProps.params.champion) {
+            || this.props.params.champion !== prevProps.params.champion
+            || this.props.params.player !== prevProps.params.player) {
                 getDataBasedOnProps(this.props);
         }
     }
@@ -178,11 +205,12 @@ const mapStateToProps = (state) => {
         players: state.players,
         match_history: state.match_history,
         team_match_history: state.team_match_history,
-        champion_match_history: state.champion_match_history
+        champion_match_history: state.champion_match_history,
+        player_match_history: state.player_match_history
     };
 };
 
-Teams = withRouter(connect(mapStateToProps, null)(Teams));
+Teams = connect(mapStateToProps, null)(Teams);
 Champions = connect(mapStateToProps, null)(Champions);
 Players = connect(mapStateToProps, null)(Players);
 MatchHistory = withRouter(connect(mapStateToProps, null)(MatchHistory));

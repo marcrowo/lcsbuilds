@@ -16,6 +16,7 @@ ReactDOM.render(
             <Route path="/champions" component={Champions} />
             <Route path="/champions/:champion/:page" component={MatchHistory} />
             <Route path="/players" component={Players} />
+            <Route path="/players/:player/:page" component={MatchHistory} />
             <Route path="/match_history/page/:page" component={MatchHistory} />
             <Redirect from='/match_history' to='/match_history/page/1'/>
             <Redirect from='*' to='/'/>

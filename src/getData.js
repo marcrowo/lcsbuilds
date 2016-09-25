@@ -11,6 +11,8 @@ const getData = (url, successString, errorString, prop = null, fetch_again = fal
         return;
     }
     else {
+        //use EC2 instead of localhost
+        url = "http://ec2-54-167-224-62.compute-1.amazonaws.com" + url;
         axios.get(url)
             .then(function(response) {
                 store.dispatch({

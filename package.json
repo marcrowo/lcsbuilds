@@ -23,6 +23,5 @@
   },
   "eslintConfig": {
     "extends": "./node_modules/react-scripts/config/eslint.js"
-  },
-  "proxy": "http://localhost:4000"
+  }
 }

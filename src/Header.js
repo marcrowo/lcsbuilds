@@ -6,7 +6,7 @@ class Header extends Component {
         return (
             <div className="App-header">
                 <Link to="/">
-                    <h2>lcsbuilds-react</h2>
+                    <h2>lcsbuilds</h2>
                 </Link>
                 <Link to="/teams" activeClassName="active">Teams</Link> &nbsp;
                 <Link to="/champions" activeClassName="active">Champions</Link> &nbsp;

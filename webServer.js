@@ -7,6 +7,7 @@ var axios = require('axios');
 var mongo = require('mongodb');
 var MongoClient = mongo.MongoClient;
 var url = 'mongodb://localhost/lcsbuilds-test';
+var keys = require('./secretKeys');
 
 // Set up the MongoClient connection once and re-use
 var db;
@@ -64,7 +65,7 @@ app.get('/players', function(request, response) {
 
 app.get('/champions', function(request, response) {
     // Riot static API 
-    axios.get('https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?api_key=4e580cfa-15d6-4797-b19b-35f166cdad8b')
+    axios.get('https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?api_key=' + keys.RIOT_API_KEY);
         .then(function(champions_response) {
             var champions = [];
             for (var champion_key in champions_response.data.data) {

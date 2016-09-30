@@ -65,7 +65,7 @@ app.get('/players', function(request, response) {
 
 app.get('/champions', function(request, response) {
     // Riot static API 
-    axios.get('https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?api_key=' + keys.RIOT_API_KEY);
+    axios.get('https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?api_key=' + keys.RIOT_API_KEY)
         .then(function(champions_response) {
             var champions = [];
             for (var champion_key in champions_response.data.data) {

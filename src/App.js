@@ -73,7 +73,7 @@ const ChampionsPresentational = ({ champions }) => {
             <h3>Champions</h3>
             <ul>
                 {champions.map((champion) => 
-                        <li key={champion}><Link to={"/champions/" + champion + "/1"}>{champion}</Link></li>
+                        <li key={champion}><Link to={"/champions/" + champion.replace(/\s+/, "") + "/1"}>{champion}</Link></li>
                 )}
             </ul>
         </div>

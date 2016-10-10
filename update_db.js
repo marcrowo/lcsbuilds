@@ -286,7 +286,9 @@ var get_game_stats = function(db_object) {
 var main = function() {
 	// In future, check DB for last update
 	// If more than X days, update DB
-	get_schedule_items(2);
+	//get_schedule_items(2); //NA
+	//get_schedule_items(2); //EU
+	get_schedule_items(9); //Worlds
 };
 
 if (require.main === module) {
